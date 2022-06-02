@@ -1,0 +1,36 @@
+#averege speed and conjestion to hours: 5:00 6:00 etc 4.
+
+import pandas as pd
+
+combine=pd.read_csv("order_avg_31_08_21.csv")
+avg_conj_speed=open("only_hours_complete.txt",'w')
+averegeRoadSpeed=0
+averegeRoadConjestion=0
+countPointsRoad=0
+tempNameRoad=combine['road'].iloc[0]
+hours=['5','6','7','8','9']
+i=0
+for index, row in combine.iterrows():
+  nameRoad=row['road']
+  time=row['time']
+  speed=row['speed']
+  conjestion=row['conjestion']
+  if nameRoad==tempNameRoad and hours[i] in time :  #compare road so only conjestion and speed in same parts include in their averege
+      averegeRoadSpeed+=speed
+      averegeRoadConjestion+=conjestion
+      countPointsRoad+=1
+  else:
+      #print(averegeRoadSpeed,"averege")
+      #print(countPointsRoad,"count")
+      averegeRoadSpeed=averegeRoadSpeed/countPointsRoad
+      averegeRoadConjestion=averegeRoadConjestion/countPointsRoad
+      print(str(averegeRoadConjestion),speed)
+      avg_conj_speed.write(tempNameRoad+','+hours[i]+':00'+','+str(averegeRoadConjestion)+','+str(averegeRoadSpeed)+'\n')
+      tempNameRoad=row['road']
+      averegeRoadSpeed=speed
+      averegeRoadConjestion=conjestion
+      i+=1
+      i=i%5
+      countPointsRoad=1
+
+avg_conj_speed.close()

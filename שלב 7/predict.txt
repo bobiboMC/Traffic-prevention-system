@@ -1,0 +1,20 @@
+#for specific trip
+import pandas as pd
+df=pd.read_csv("full_data_roads.csv")
+df2=pd.read_csv("traffic_view_with_bradfield.csv")
+
+for row in df.itertuples():
+  for index,row2 in df2.iterrows():
+    if row.road in row2['road']:
+      if int(row2['cars'])<int(row.avg_busy): #free road
+           df2.at[index,'conjestion_level']='free'
+           df2.at[index,'speed']=row.FreeFlowSpeed
+      elif int(row2['cars'])>=int(row.avg_busy) and int(row2['cars'])<int(row.avg_very_busy): #busy road
+           df2.at[index,'conjestion_level']='busy'
+           df2.at[index,'speed']=row.speed_busy
+      elif int(row2['cars'])>=int(row.avg_very_busy): #very busy road
+           df2.at[index,'conjestion_level']='very_busy'
+           df2.at[index,'speed']=row.speed_very_busy
+     
+
+df2.to_csv('traffic_view_final.csv')

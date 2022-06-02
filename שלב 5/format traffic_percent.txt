@@ -1,0 +1,11 @@
+#change format traffic_percent 1.
+
+import pandas as pd
+
+df=pd.read_csv("traffic_recordings31_08_21.csv")
+for index, row in df.iterrows():
+  floatPercent=1-(float(row['traffic_percent'])/100) #for divided speed file 10
+  df['traffic_percent'].iloc[index]=floatPercent
+  
+
+df.to_csv("new_format_traffic_recordings31_08_21.csv")

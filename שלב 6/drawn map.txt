@@ -1,0 +1,17 @@
+import folium
+from branca.element import Figure
+  
+coordinates=[[-33.92426370215479,151.22789671647186],[-33.92276854802142,151.22706022080513],
+             [-33.91376569798587,151.225175619427],[-33.91181531016182,151.22328489863543],
+             [-33.90449792999916,151.22069845868472],[-33.88394625172612,151.21755354244092],
+             [-33.88061949280089,151.21694046928116]]
+
+fig=Figure(width=600,height=400)
+sydney_map=folium.Map(location=[-33.865143, 151.209900],zoom_start=11,min_zoom=8,max_zoom=18)
+fig.add_child(sydney_map)
+f1=folium.FeatureGroup("trip")
+my_popup='<b>"hi trip"</b>'
+line=folium.vector_layers.PolyLine(coordinates,popup=my_popup,tooltip="hi",color='red',weight=10).add_to(f1)
+f1.add_to(sydney_map)
+
+sydney_map

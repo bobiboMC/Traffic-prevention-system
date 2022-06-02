@@ -1,0 +1,8 @@
+# drop same rows #שלב 7 להוסיף לדרייב
+import pandas as pd
+
+df=pd.read_csv("tvah with inter points.csv")
+
+df=df.drop_duplicates(['trip_id','hour','road'],keep= 'first')
+
+df.to_csv('one_road_tvah.csv')

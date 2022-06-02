@@ -1,0 +1,61 @@
+import pandas as pd
+file_08=pd.read_csv("road_predict_08_06.csv")
+file_15=pd.read_csv("road_predict_15_06.csv")
+file_16=pd.read_csv("road_predict_16_06.csv")
+file_17=pd.read_csv("road_predict_17_06.csv")
+file_21=pd.read_csv("road_predict_21_06.csv")
+file_23=pd.read_csv("road_predict_23_06.csv")
+file_9_8=pd.read_csv("level conjestion9_8.csv")
+file_10_8=pd.read_csv("level_cong_complete_10_08_21.csv")
+file_11_8=pd.read_csv("level conjestion11_8.csv")
+file_12_8=pd.read_csv("level conjestion12_08.csv")
+file_31_8=pd.read_csv("level_conjestion31_8.csv")
+file_2_9=pd.read_csv("level_conjestion2_9.csv")
+roads=[]
+road_name="Newbridge Road Eastbound"
+for index, row in file_08.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level'])+','+str(row['cars'])+','+str(row['speed']))
+for index, row in file_15.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level'])+','+str(row['cars'])+','+str(row['speed']))
+for index, row in file_16.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level'])+','+str(row['cars'])+','+str(row['speed']))
+for index, row in file_17.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level'])+','+str(row['cars'])+','+str(row['speed']))
+for index, row in file_21.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level'])+','+str(row['cars'])+','+str(row['speed']))
+for index, row in file_23.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level'])+','+str(row['cars'])+','+str(row['speed']))
+
+for index, row in file_9_8.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level_conjestion'])+','+str(row['speed'])+','+row['time'])
+
+for index, row in file_10_8.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level_conjestion'])+','+str(row['speed'])+','+row['time'])
+
+for index, row in file_11_8.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level_conjestion'])+','+str(row['speed'])+','+row['time'])
+
+for index, row in file_12_8.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level_conjestion'])+','+str(row['speed'])+','+row['time'])
+
+for index, row in file_31_8.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level_conjestion'])+','+str(row['speed'])+','+row['time'])
+
+for index, row in file_2_9.iterrows():
+  if road_name.lower() in row['road'].lower():
+    roads.append(row['road']+','+str(row['level_conjestion'])+','+str(row['speed'])+','+row['time'])
+
+
+for road in roads:
+  print(road)

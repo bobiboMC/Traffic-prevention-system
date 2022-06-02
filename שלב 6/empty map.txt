@@ -1,0 +1,10 @@
+# sydney maps try to predict
+
+import folium
+from branca.element import Figure
+
+fig=Figure(width=600,height=400)
+sydney_map=folium.Map(location=[-33.865143, 151.209900],zoom_start=11,min_zoom=8,max_zoom=18)
+fig.add_child(sydney_map)
+
+sydney_map

@@ -1,0 +1,43 @@
+import pandas as pd
+
+df=pd.read_csv("road_length.csv")
+count_elen=0
+cars_very_busy_sum=0
+cars_busy_sum=0
+cars_free_sum=0
+for row in df.itertuples():
+    count_elen+=1
+
+intervals=[0,1,2,5,7,9,12,15,20,25,30]
+
+print(len(intervals)-1)
+road_lengths=[]
+for i in range(0,len(intervals)-1):  
+    range_length={
+        "range": str(intervals[i])+'-'+str(intervals[i+1]),
+        "avg_very_busy": 0,
+        "avg_busy": 0,
+        "avg_free": 0,
+        "num_of_roads": 0
+    }
+    road_lengths.append(range_length)
+count_road=[0]*171
+
+for rd_length in road_lengths:
+  for row in df.itertuples():
+      name_of_range=rd_length['range'].split('-')
+      left_side=int(name_of_range[0])
+      right_side=int(name_of_range[1])
+      if (row.length/1000)>=left_side and (row.length/1000)<right_side:
+        rd_length["avg_very_busy"]+=row.cars_very_busy
+        rd_length["avg_busy"]+=row.cars_busy
+        rd_length["avg_free"]+=row.cars_free
+        rd_length["num_of_roads"]+=1
+
+for rd_length in road_lengths:
+   if rd_length["num_of_roads"]!=0:
+      rd_length["avg_very_busy"]=rd_length["avg_very_busy"]/rd_length["num_of_roads"]
+      rd_length["avg_busy"]=rd_length["avg_busy"]/rd_length["num_of_roads"]
+      rd_length["avg_free"]=rd_length["avg_free"]/rd_length["num_of_roads"]
+
+print(road_lengths)

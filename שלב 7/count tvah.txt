@@ -1,0 +1,5 @@
+#שלב 7 להוסיף לדרייב
+import pandas as pd
+df=pd.read_csv("one_road_tvah.csv")
+df=df.groupby(['hour','road']).size()
+df.to_csv('count_tvah.csv')

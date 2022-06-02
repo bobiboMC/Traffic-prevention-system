@@ -1,0 +1,14 @@
+# 5.
+import pandas as pd
+df=pd.read_csv("orgenizedCombine23_06.csv")
+level_cong=[]
+for index, row in df.iterrows():
+  if float(row['conjestion']) < 0.55: #עומס כבד
+    level_cong.append('very busy')
+  elif float(row['conjestion']) >= 0.55 and float(row['conjestion']) < 0.8: #עומס רגיל
+    level_cong.append('busy')
+  elif float(row['conjestion']) >= 0.8: #אין עומס
+    level_cong.append('free')
+
+df['level_conjestion']=level_cong
+df.to_csv('combine_level_conj_23_06')

@@ -1,0 +1,16 @@
+#script for easy trip road
+
+import pandas as pd
+from geopy.geocoders import Nominatim
+import json
+
+f = open("trips_roads_times.txt",'r')
+trip_roads=open("trips_roads_times_easy.txt",'w')
+data = json.load(f)
+
+
+for name_trip, possible_values in data.items():
+      for key_point, value_point in possible_values.items():
+          if key_point!='end_hour':
+            for value in value_point:
+              trip_roads.write(str(name_trip)+','+str(value[0])+','+str(value[1])+'\n')

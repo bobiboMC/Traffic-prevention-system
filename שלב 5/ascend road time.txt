@@ -1,0 +1,7 @@
+#ascend road 3.
+import pandas as pd
+df=pd.read_csv("avg_31_08_21.csv")
+df=df.sort_values(['road','time'],ascending=[True,True])
+#df=df.drop(['in'], axis = 1)
+df=df.reset_index(drop=True)
+df.to_csv('order_avg_31_08_21') 

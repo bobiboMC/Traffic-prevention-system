@@ -1,0 +1,43 @@
+# count unknown roads
+import pandas as pd
+import json
+import datetime
+  
+def find(my_list_roads, key, value):
+    for i, dic in enumerate(my_list_roads):
+        if dic[key] == value:
+            return i
+    return -1
+
+df=pd.read_csv("count_cars_in_range.csv")
+df2=pd.read_csv("full_data_roads.csv")
+traffic_view_michael=open('traffic_view_with_bradfield.txt','w')
+
+all_roads=[]
+for row in df.itertuples():
+    road_count={
+        "hour": row.hour ,
+        "name": row.road ,
+        "cars": row.cars ,
+        "conjestion":'wait' ,
+        "speed":-1
+    }
+    all_roads.append(road_count)
+
+for dict_pos in all_roads:    
+  for row in df2.itertuples():
+    if dict_pos['name'] in row.road:
+        if dict_pos['cars']<row.cars_busy: #free road
+           dict_pos['conjestion']='free'
+           dict_pos['speed']=row.speed_free
+        elif dict_pos['cars']>=row.cars_busy and dict_pos['cars']<row.cars_very_busy: #busy road
+           dict_pos['conjestion']='busy'
+           dict_pos['speed']=row.speed_busy
+        elif dict_pos['cars']>=row.cars_very_busy: #very busy road
+           dict_pos['conjestion']='very_busy'
+           dict_pos['speed']=row.speed_very_busy
+      
+
+for dict_pos in all_roads:
+  traffic_view_michael.write(dict_pos['hour']+','+dict_pos['name']+','+str(dict_pos['cars'])+','+str(dict_pos['conjestion'])+','+str(str(dict_pos['speed']))+'\n')
+traffic_view_michael.close()

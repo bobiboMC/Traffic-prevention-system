@@ -1,0 +1,34 @@
+#averege currentSpeed and traffic_percent after format 2.
+
+import pandas as pd
+
+df=pd.read_csv("new_format_traffic_recordings31_08_21.csv")
+#conjestionFile=open("testSpeed23_06_21.txt",'w')
+conjestionFile=open("avg_31_08_21.txt",'w')
+averegeRoadSpeed=0
+averegeRoadConjestion=0
+tempNameRoad=df['road'].iloc[0]
+tempTime=df['hour'].iloc[0]
+countPointsRoad=0
+for index, row in df.iterrows():
+  nameRoad=row['road']
+  time=row['hour']
+  currentSpeed=row['currentSpeed']
+  conjestion=row['traffic_percent']
+  if nameRoad==tempNameRoad and time==tempTime: #compare time and road so only conjestion in same parts
+      averegeRoadSpeed+=currentSpeed
+      averegeRoadConjestion+=conjestion
+      countPointsRoad+=1
+  else:
+      #print(averegeRoadSpeed,"averege")
+      #print(countPointsRoad,"count")
+      averegeRoadSpeed=averegeRoadSpeed/countPointsRoad
+      averegeRoadConjestion=averegeRoadConjestion/countPointsRoad
+      conjestionFile.write(tempNameRoad+','+tempTime+','+str(averegeRoadSpeed)+','+str(averegeRoadConjestion)+'\n')
+      tempNameRoad=row['road']
+      tempTime=row['hour']
+      averegeRoadSpeed=currentSpeed
+      averegeRoadConjestion=conjestion
+      countPointsRoad=1
+
+conjestionFile.close()

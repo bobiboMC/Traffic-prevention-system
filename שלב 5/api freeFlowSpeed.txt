@@ -1,0 +1,22 @@
+#להוסיף לדרייב שלב 5
+import requests
+import pandas as pd
+df=pd.read_csv("roads new ver 3.csv")
+
+FreeFlowSpeed=[]
+for row in df.itertuples():
+  coordinate=str(row.latitude)+','+str(row.longitude)
+  try:
+          URL="https://api.tomtom.com/traffic/services/4/flowSegmentData/relative0/10/json?point="+coordinate+"&key=19TxtGiVQdQhRqPlVGhc2fzVI3WB3AUc"
+          request=requests.get(url=URL)
+          data=request.json()  
+          freeFlow=data["flowSegmentData"]["freeFlowSpeed"]
+          FreeFlowSpeed.append(freeFlow)
+  except:
+          print(row.road)
+          FreeFlowSpeed.append(-1)
+        
+  
+df['FreeFlowSpeed']=FreeFlowSpeed
+df.to_csv("road_speed_request.csv")
+#route_lengths.close()

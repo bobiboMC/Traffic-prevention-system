@@ -1,0 +1,11 @@
+
+import pandas as pd
+import math
+df=pd.read_csv("full_data.csv")
+for index,row in df.iterrows():
+      df.at[index,'cars_very_busy']=math.ceil(df.at[index,'cars_very_busy']/12)
+      df.at[index,'cars_busy']= math.ceil(df.at[index,'cars_busy']/12)
+      df.at[index,'cars_free']=math.ceil(df.at[index,'cars_free']/12)
+
+df.sort_values(by=['road'])
+df.to_csv('full_data_roads.csv')

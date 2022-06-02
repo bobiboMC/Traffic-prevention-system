@@ -1,0 +1,19 @@
+from geopy.geocoders import Nominatim
+import requests
+df=pd.read_csv("new_road_cars_speed_reqeset.csv")
+
+speed_busy=[]
+speed_very_busy=[]
+for row in df.itertuples():
+  if row.FreeFlowSpeed!=-1:
+      busy=row.FreeFlowSpeed*0.823373443
+      very_busy=busy*0.773910282
+      speed_busy.append(busy)
+      speed_very_busy.append(very_busy)
+  else:
+      speed_busy.append(-2)
+      speed_very_busy.append(-2)
+
+df['speed_busy']=speed_busy     
+df['speed_very_busy']=speed_very_busy
+df.to_csv("free_busy_very_busy.csv")  

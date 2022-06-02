@@ -1,0 +1,48 @@
+#coordinate UTC to name road
+
+import pandas as pd
+from geopy.geocoders import Nominatim
+import json
+
+f = open("routes.json",'r')
+trip_roads=open("coordinates.txt",'w')
+data = json.load(f)
+
+count=0
+i=0
+for name_trip, possible_values in data.items():
+    if i>=500 and i<550:
+      for key_point, value_point in possible_values.items():
+                  geolocator = Nominatim(user_agent="Sydney")
+                  if key_point=="startpoint" or key_point=="endpoint":
+                    lat=value_point[0]
+                    lon=value_point[1]
+                    lat_lon=str(lat)+','+str(lon)
+                    try:
+                      location = geolocator.reverse(lat_lon)
+                      raw=location.raw['address']['road']
+                      trip_roads.write(name_trip+','+lat_lon+','+raw+'\n')
+                    except:
+                      x=5
+                  elif key_point=="interpoints":
+                    for value_inter in value_point:
+                        lat=value_inter[0]
+                        lon=value_inter[1]
+                        lat_lon=str(lat)+','+str(lon)
+                        try:
+                          location = geolocator.reverse(lat_lon)
+                          raw=location.raw['address']['road']
+                          trip_roads.write(name_trip+','+lat_lon+','+raw+'\n')
+                        except:
+                          x=5
+    else:
+      if i<500:
+        i+=1
+        continue
+      else:
+        break
+    i+=1       
+                
+  
+f.close()
+trip_roads.close()

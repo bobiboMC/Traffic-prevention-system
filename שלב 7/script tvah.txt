@@ -1,0 +1,45 @@
+import pandas as pd
+from datetime import datetime
+from datetime import timedelta
+
+#part one-work on dictanary
+hour_minute = datetime.strptime('04:00', '%I:%M')
+minute = hour_minute.minute
+hour = hour_minute.hour
+hours_roads=[]
+for i in range(0,72): 
+  if hour_minute.minute==5 or hour_minute.minute==0:
+    roads_in_five={
+          'name':'0'+str(hour_minute.hour)+':'+'0'+str(hour_minute.minute),
+          'roads':[]
+    }
+  else:
+     roads_in_five={
+          'name':'0'+str(hour_minute.hour)+':'+str(hour_minute.minute),
+          'roads':[]
+    }
+  hours_roads.append(roads_in_five)
+  hour_minute = hour_minute+timedelta(minutes=5)
+#part-2: work on file
+df=pd.read_csv("coordinate_start_end.csv")
+write_hours=open('write_roads.txt','w')
+write_hours.write('hour'+','+'trip_id'+'\n')
+i=0
+for x in hours_roads:
+  x_split=x['name'].split(':')
+  hour = int(x_split[0])
+  minute = int(x_split[1])
+  for row in df.itertuples():
+    date_splited=str(row.value_start).split(' ')
+    hour_minute_df = datetime.strptime(date_splited[1], '%I:%M')
+    hour_df=hour_minute_df.hour
+    minute_df=hour_minute_df.minute
+    future_minute=minute+5
+    if hour==hour_df and minute_df>=minute and  minute_df<future_minute:
+      #i+=1
+      x['roads'].append(row.name_trip)
+  #print(x)
+  #write_hours.write(str(x['roads'])+'\n')
+  for road in x['roads']:
+    write_hours.write(str(x['name'])+','+str(road)+'\n')        
+
